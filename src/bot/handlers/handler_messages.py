@@ -10,11 +10,12 @@ from aiogram.types import Message, InlineKeyboardButton, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 import src.bot.keyboards as kb
-from src.api.http_requests import get_product_data
-from src.bot.keyboards.inline import template_inline_markup_1, template_inline_markup_2, template_inline_markup_3
-from src.bot.keyboards.reply import template_reply_markup_1, template_reply_markup_2, template_reply_markup_3
+from src.api.http_requests import get_product_data, get_notes_data, sss_1
+from src.bot.keyboards.inline import template_inline_markup_1, template_inline_markup_2, template_inline_markup_3, \
+    inline_choice_activity_1
+from src.bot.keyboards.reply import template_reply_markup_1, template_reply_markup_2, template_reply_markup_3, \
+    choice_activity_1
 from src.bot.states import States1
-
 
 message_router = Router()
 
@@ -57,23 +58,51 @@ async def help_handler(message: Message):
 
 # =========================================================================
 
-@message_router.message(F.text.lower() == "xxx")
+@message_router.message(F.text == "Запустить бота")
 async def cmd_get_product_info(message: types.Message, state: FSMContext):
-    """
-    Обработчик для получения информации о товаре.
-
-    Args:
-        message (types.Message): Объект сообщения.
-        state (FSMContext): Состояние конечного автомата.
-
-    Returns:
-        None
-    """
-    await message.answer("Введите артикул товара (9-значное число):")
+    await message.answer(
+        "Выберите тему:",
+        reply_markup=await choice_activity_1(sss_1)
+    )
     await state.set_state(States1.state_1)
 
 
-@message_router.message(States1.state_1)
+@message_router.message(F.text, States1.state_1)
+async def cmd_get_product_info(message: types.Message, state: FSMContext):
+    await message.answer(f"***{message.text}***")
+    await message.answer(
+        "Выберите под-тему:",
+        reply_markup=await inline_choice_activity_1(await get_notes_data(message.text))
+    )
+    # await state.set_state(States1.state_1)
+
+
+# @message_router.message(F.text == "База")
+# async def cmd_get_product_info(message: types.Message, state: FSMContext):
+#     await message.answer(
+#         "Выберите действие 002:",
+#         reply_markup=await choice_activity_1(sss_2)
+#     )
+#     # await state.set_state(States1.state_1)
+
+# @message_router.message(F.text == "PostgreSQL и др.", States1.state_2)
+# async def cmd_get_product_info(message: types.Message, state: FSMContext):
+#     await message.answer(
+#         "Выберите действие 002:",
+#         reply_markup=await inline_choice_activity_1(sss_3)
+#     )
+#     # await state.set_state(States1.state_1)
+
+
+# ==========================================================================
+
+@message_router.message(F.text.lower() == "xxx")
+async def cmd_get_product_info(message: types.Message, state: FSMContext):
+    await message.answer("Введите артикул товара (9-значное число):")
+    await state.set_state(States1.state_2)
+
+
+@message_router.message(States1.state_2)
 async def process_product_code(message: Message, state: FSMContext):
     """
     Обработчик для обработки введенного пользователем артикула товара.

@@ -46,3 +46,8 @@ async def template_inline_markup_3() -> InlineKeyboardMarkup:
 
 # =======================================================================================
 
+async def inline_choice_activity_1(sss):
+    keyboard = InlineKeyboardBuilder()
+    for elem in sss:
+        keyboard.add(InlineKeyboardButton(text=elem, url="https://www.youtube.com"))
+    return keyboard.adjust(2).as_markup()

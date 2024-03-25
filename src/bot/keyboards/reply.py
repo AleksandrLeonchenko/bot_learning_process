@@ -43,5 +43,27 @@ async def template_reply_markup_3() -> ReplyKeyboardMarkup:
     kb.adjust(3)
     return kb.as_markup(resize_keyboard=True)
 
+
 # =================================================================================================
 
+# sss = ['База', 'PostgreSQL и др.', 'Docker и др.', 'Pandas и др.', 'ML']  # Пример данных, возвращаемых из БД
+
+
+def start_markup() -> ReplyKeyboardMarkup:
+    kb = [
+        [
+            KeyboardButton(text="Запустить бота"),
+        ],
+    ]
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=kb,
+        resize_keyboard=True,
+        input_field_placeholder="Нажмите 'Запустить бота', чтобы запустить бота"
+    )
+    return keyboard
+
+async def choice_activity_1(sss) -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardBuilder()
+    for elem in sss:
+        keyboard.add(KeyboardButton(text=elem))
+    return keyboard.adjust(3).as_markup(resize_keyboard=True, input_field_placeholder="Выберите нужную кнопку")

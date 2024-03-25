@@ -32,5 +32,32 @@ async def get_product_data(product_code: str) -> dict:
 
     return data
 
+
+
 if __name__ == "__main__":
     asyncio.run(get_product_data())
+
+
+
+
+# ИМИТАЦИЯ обращения к БАЗе ДАННЫХ (реплай кнопки выбора тем):
+sss_1 = ['Base', 'PostgreSQL', 'Docker', 'Pandas']
+
+# ИМИТАЦИЯ обращения к БАЗе ДАННЫХ (инлайн кнопки выбора подтем):
+async def get_notes_data(note: str):
+    # Пример данных, возвращаемых из БД:
+    sss_1 = ['Base', 'PostgreSQL', 'Docker', 'Pandas']
+    ddd_1 = {
+        'Base': ['База_1', 'База_2', 'База_3', 'База_4', 'База_5'],
+        'PostgreSQL': ['MongoDB', 'PostgreSQL', 'Clickhouse', 'Redis', 'SQLAlchemy', 'Alembic', 'MySQL'],
+        'Pandas': ['Pandas', 'Numpy', 'Matplotlib', 'Sklearn', 'Scipy', 'Pyspark'],
+        'Docker': ['Linux', 'Docker', 'Kubernetes', 'Kafka', 'RabbitMQ']
+    }
+    print('///note/////////////', note, type(note))
+    for i in sss_1:
+        print('///i/////*******', i, type(i))
+        if i == note:
+            res = ddd_1[note]
+            print('///res/////*******', res, type(res))
+            return res
+    return ['xxx', 'yyy', 'zzz']

@@ -10,7 +10,7 @@ from aiogram.types import Message, InlineKeyboardButton, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from src.bot.keyboards.inline import template_inline_markup_1
-from src.bot.keyboards.reply import template_reply_markup_1
+from src.bot.keyboards.reply import template_reply_markup_1, start_markup
 
 command_router = Router()
 
@@ -33,3 +33,10 @@ async def help_handler(message: Message):
 
 # ====================================================================================
 
+
+@command_router.message(Command("start"))
+async def cmd_start(message: Message):
+    await message.answer(
+        "Выберите действие:",
+        reply_markup=start_markup()
+    )
